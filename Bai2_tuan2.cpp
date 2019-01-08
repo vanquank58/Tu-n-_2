@@ -6,6 +6,7 @@
 #include<stdio.h>
 using namespace std;
 ofstream b("output2.txt");
+//-------------------------------------------------------------------
 struct NhanVien //struc cau truc nhan vien
 {
 	int nhanVienId;
@@ -13,6 +14,7 @@ struct NhanVien //struc cau truc nhan vien
 	int tuoi;
 	int luong;	
 };
+//-----------------------------------------------------------------
 class DSNV //lop DSNV
 {
 	public:
@@ -20,7 +22,7 @@ class DSNV //lop DSNV
 		vector<NhanVien> dsNV;
 		void doc();
 		void ghi();
-		void ghitxt();
+		void ghifile();
 		void nhapDSNVTuBanPhim();
 		void inDSNV_ManHinh();
 		void themNV();
@@ -29,6 +31,7 @@ class DSNV //lop DSNV
 		void suaMSNV();
 		void menu();
 };
+//------------------------------------------------------------------
 void DSNV::doc()
 {
 	dsNV.clear();
@@ -46,11 +49,12 @@ void DSNV::doc()
 		dsNV.pop_back();
 	}
 }
+//---------------------------------------------------------
 void DSNV::ghi()	
 {
 	n=dsNV.size();
 	FILE *s;
-	s = fopen("intput.txt","wb");
+	s = fopen("output2.txt","wb");
 	NhanVien nv;
 	for(int i=0;i<n;i++)
 	{
@@ -58,19 +62,20 @@ void DSNV::ghi()
 		fwrite(&nv,sizeof(NhanVien),1,s);
 	}
 }
-
-void DSNV::ghitxt()
+//-------------------------------------------------------------------------
+void DSNV::ghifile()
 {
 	b<<"Ma nhan vien"<<"\t"<<"Ho ten"<<"\t\t\t"<<"Tuoi"<<"\t"<<"Luong nhan vien"<<endl;
 	for(int i=0;i<n;i++)
 	b<<dsNV[i].nhanVienId<<"\t\t"<<dsNV[i].hoTen<<"\t\t"<<dsNV[i].tuoi<<"\t"<<dsNV[i].luong<<endl;
 }
+//---------------------------------------------------------------------------
 void DSNV::nhapDSNVTuBanPhim() //dau vao
 {
 	cout<<"Nhap so luong nhan vien : "<<endl;
 	cin>>n;
-	dsNV.resize(n); //dat lai kich thuoc vector
-	n=dsNV.size(); //lay kich thuoc vector
+	dsNV.resize(n); //dat lai kich thuoc danh sach
+	n=dsNV.size(); //lay kich thuoc danh sach
 	for(int i=0;i<n;i++)
 	{
 		cout<<"Nhan vien thu "<<i+1<<":"<<endl;
@@ -86,7 +91,7 @@ void DSNV::nhapDSNVTuBanPhim() //dau vao
 		cin>>dsNV[i].luong;
 	}
 }
-
+//---------------------------------------------------------
 void DSNV::inDSNV_ManHinh()
 {
 	for(int i=0;i<n;i++)
@@ -97,9 +102,9 @@ void DSNV::inDSNV_ManHinh()
 		cout<<"Luong nhan vien:"<<dsNV[i].luong<<endl;
 		cout<<"*********************************************"<<endl;
 	}
-	ghitxt();
+	ghifile();
 }
-
+//--------------------------------------------------------
 void DSNV::timMSNV() //tim thong tin nhan vien theo ma nhan vien
 {
 	int x;
@@ -122,10 +127,11 @@ void DSNV::timMSNV() //tim thong tin nhan vien theo ma nhan vien
 			b<<endl;
 		}	
 		else if(dsNV[i].nhanVienId!=x)
-			cout<<"Khong tim thay nhan vien co ma tren!"<<endl;
+			cout<<"Khong tim thay nhan ma tren!"<<endl;
 	}
 
 }	
+//-----------------------------------------------------------------------------------
 void DSNV::themNV() //them 1 nhan vien moi
 {
 	int z,a,g=0;
@@ -153,12 +159,13 @@ void DSNV::themNV() //them 1 nhan vien moi
 		cin>>dsNV[i].luong;
 	}	
 }
+//------------------------------------------------------------
 void DSNV::suaMSNV() //sua thong tin nhan vien theo ma nhan vien
 {
 	int y;
-	cout<<"Nhap ma cua nhan vien can sua doi:"<<endl;
+	cout<<"Nhap ma cua nhan vien can sua :"<<endl;
 	cin>>y;
-	n = dsNV.size(); 
+	n = dsNV.size(); // kich thuoc cua danh sach
 	for(int i=0;i<n;i++)
 	{
 		if(dsNV[i].nhanVienId==y) 
@@ -189,6 +196,8 @@ void DSNV::suaMSNV() //sua thong tin nhan vien theo ma nhan vien
 				}
 	}
 }
+//---------------------------------------------------------
+// ham xoa nhan vien theo msnv
 void DSNV::xoaMSNV()
 {
 	n = dsNV.size();
@@ -210,10 +219,10 @@ void DSNV::xoaMSNV()
 		b<<"Xoa thanh cong!"<<endl;
 	}
 	else
-		cout<<"Xoa that bai!"<<endl;
+		cout<<"Xoa khong thanh cong !"<<endl;
 		b<<"Xoa that bai!"<<endl;
 }
-
+//--------------------------------------------------------
 void DSNV::menu() //danh sach chuc nang
 {
 	int chon; //bien lua chon
@@ -230,32 +239,38 @@ void DSNV::menu() //danh sach chuc nang
 		system("cls"); //xoa man hinh
 		switch( chon)
 		{
+			// them nv
 			case 1:{
 				themNV();
 				ghi();
 				break;
 			
 			}
+			// xoa nhan vien
 			case 2:{
 				xoaMSNV();
 				ghi();
 				break;
 			}
+			// sua nv theo ma nhan vien
 			case 3:{
+				
 				suaMSNV();
 				ghi();
 				break;
 			}
+			//tim nv theo ma nhan vien
 			case 4:{
 				timMSNV();
 				ghi();
 				break;
 			}
-				
+				//in ra ds nhan vien
 			case 5:{
 				inDSNV_ManHinh();	
 				break;
 			}
+			// ket thuc menu
 			case 6: break;	
 			default:
 				cout<< "\nNhap lai!";
